@@ -24,7 +24,11 @@ export class PessoaService {
 		return this.http.post(this.API, pessoa).pipe(take(1));
 	}
 
-	loadById(id){
-		return this.http.get(`${this.API}/${id}`).pipe(take(1));
+	update(pessoa){
+		return this.http.put(`${this.API}/${pessoa.codigo}`, pessoa).pipe(take(1));
+	}
+
+	loadById(codigo){
+		return this.http.get<Pessoa>(`${this.API}/${codigo}`).pipe(take(1));
 	}
 }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { map, switchMap } from 'rxjs/operators';
 
 
 @Component({
@@ -25,32 +26,14 @@ export class PessoaFormComponent implements OnInit {
 
   ngOnInit() {
 
-    this.route.params.subscribe(
-      (params: any) =>{
-        
-        const id = params['codigo'];
-        const pessoa$ = this.service.loadById(params['codigo']);
-        
-        pessoa$.subscribe(pessoa => {
-          this.updateForm(pessoa);
-        })
-      } 
-    );
-
+    // pega objeto definido no resolver
+    const pessoa = this.route.snapshot.data['pessoa'];
+     
     this.form = this.fb.group({
-      codigo: [null],
-      nome: [null, [Validators.required, Validators.minLength(3)]],
-      cpf: [null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
-      dataNascimento: [null]
-    });
-  }
-
-  updateForm(pessoa){
-    this.form.patchValue({
-      codigo : pessoa.codigo,
-      nome : pessoa.nome,
-      cpf : pessoa.cpf,
-      dataNascimento : pessoa.dataNascimento
+      codigo: [pessoa.codigo],
+      nome: [pessoa.nome, [Validators.required, Validators.minLength(3)]],
+      cpf: [pessoa.cpf, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      dataNascimento: [pessoa.dataNascimento]
     });
   }
 
@@ -58,14 +41,27 @@ export class PessoaFormComponent implements OnInit {
     this.submitted = true;
     console.log(this.form.value);
     if(this.form.valid){
-      this.service.create(this.form.value).subscribe(
-        success => {
-          console.log('sucesso');
-          this.location.back();
-        },
-        error => console.log(error),
-        () => console.log('request completo')
-      );
+
+      if(this.form.value.codigo){
+        this.service.update(this.form.value).subscribe(
+          success => {
+            console.log('sucesso');
+            this.location.back();
+          },
+          error => console.log(error),
+          () => console.log('request completo')
+        );
+      }else{
+        this.service.create(this.form.value).subscribe(
+          success => {
+            console.log('sucesso');
+            this.location.back();
+          },
+          error => console.log(error),
+          () => console.log('request completo')
+        );
+      }
+      
     }
   }
 
@@ -75,4 +71,7 @@ export class PessoaFormComponent implements OnInit {
     
   }
 
+  isEditar(){
+    return this.form.value.codigo > 0;
+  }
 }
