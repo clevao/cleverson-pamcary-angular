@@ -31,4 +31,8 @@ export class PessoaService {
 	loadById(codigo){
 		return this.http.get<Pessoa>(`${this.API}/${codigo}`).pipe(take(1));
 	}
+
+	delete(codigo){
+		return this.http.delete(`${this.API}/${codigo}`).pipe(take(1));
+	}
 }

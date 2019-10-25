@@ -1,35 +1,61 @@
 <div class="card">
-    <div class="card-header">
-        <div class="float-left"><h4>Pessoas</h4></div>
-        <div class="float-right">
-            <button class="btn btn-primary" [routerLink]="['add']">Novo Cadastro</button>
-        </div>
+  <div class="card-header">
+    <div class="float-left"><h4>Pessoas</h4></div>
+    <div class="float-right">
+      <button class="btn btn-primary" [routerLink]="['add']">
+        Novo Cadastro
+      </button>
     </div>
-    <div class="card-body">
-        <table class="table table-hover" *ngIf="pessoas$ | async as pessoas; else loading" >
-            <thead>
-                <th>CÓDIGO</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Data Nascimento</th>
-                <th>Ação</th>
-            </thead>
-            <tr *ngFor="let pessoa of pessoas">
-                <td>{{pessoa.codigo}}</td>
-                <td>{{pessoa.nome}}</td>
-                <td>{{pessoa.cpf}}</td>
-                <td>{{pessoa.dataNascimento}}</td>
-                <td>
-                    <button class="btn btn-outline-warning mb-1 btn-sm" (click)="onEdit(pessoa.codigo)">Editar</button>
-                    &nbsp;<button class="btn btn-outline-danger mb-1 btn-sm">Remover</button>
-                </td>
-            </tr>
-        </table>
+  </div>
+  <div class="card-body">
+    
+    <table
+      class="table table-hover"
+      *ngIf="pessoas$ | async as pessoas; else loading"
+    >
+      <thead>
+        <th>CÓDIGO</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Data Nascimento</th>
+        <th>Ação</th>
+      </thead>
+      <tr *ngFor="let pessoa of pessoas">
+        <td>{{ pessoa.codigo }}</td>
+        <td>{{ pessoa.nome }}</td>
+        <td>{{ pessoa.cpf }}</td>
+        <td>{{ pessoa.dataNascimento }}</td>
+        <td>
+          <button
+            class="btn btn-outline-warning mb-1 btn-sm"
+            (click)="onEdit(pessoa.codigo)"
+          >
+            Editar
+          </button>
+          &nbsp;<button
+            class="btn btn-outline-danger mb-1 btn-sm"
+            (click)="onDelete(pessoa)"
+          >
+            Remover
+          </button>
+        </td>
+      </tr>
+    </table>
 
-        <ng-template #loading>
-            <span>Carregando dados....</span>
-        </ng-template>
-    </div>
+    <ng-template #loading>
+      <span>Carregando dados....</span>
+    </ng-template>
+  </div>
 </div>
 
-    
+<ng-template #deleteModal>
+  <div class="modal-body text-center">
+    <p>Tem certeza que deseja remover esse curso</p>
+    <button type="button" class="btn btn-default" (click)="onConfirmDelete()">
+      Sim
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onDeclineDelete()">
+      Não
+    </button>
+  </div>
+</ng-template>
