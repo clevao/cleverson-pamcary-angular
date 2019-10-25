@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PessoaComponent } from './pessoa.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PessoaFormComponent } from './pessoa-form/pessoa-form.component';
 
 
 
 @NgModule({
-  declarations: [PessoaComponent],
+  declarations: [PessoaComponent, PessoaFormComponent],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PessoaModule { }

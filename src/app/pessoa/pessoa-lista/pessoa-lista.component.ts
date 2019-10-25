@@ -1,7 +1,8 @@
+import { PessoaService } from './../pessoa.service';
+import { Pessoa } from './../pessoa';
 import { Component, OnInit } from '@angular/core';
-import { PessoaService } from '../pessoa/pessoa.service';
-import { Pessoa } from '../pessoa/pessoa';
-import { Observable } from 'rxjs';
+import { Observable, empty } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pessoa-lista',
@@ -17,7 +18,13 @@ export class PessoaListaComponent implements OnInit {
   ngOnInit() {
     //this.service.list().subscribe(dados => this.pessoas = dados);
 
-    this.pessoas$ = this.service.list();
+    this.pessoas$ = this.service.list()
+    .pipe(
+      catchError(error => {
+        console.log(error);
+        return empty();
+      })
+    );
   }
 
 }
