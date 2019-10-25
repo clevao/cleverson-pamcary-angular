@@ -23,7 +23,7 @@
             #btnLimparPesquisa
           class="btn btn-default"
           (click)="onLimparPesquisaCpf()"
-          ng-show="isPesquisaCpf()"
+          *ngIf="isPesquisaCpf()"
         >
           LIMPAR PESQUISA
         </button>

@@ -1,10 +1,20 @@
 <div class="panel panel-default">
-  <div [style.display]="!isEditar() ? 'none' : ''" class="panel-heading">
-    <h1>Editar Cadastro</h1>
+  <div class="panel-heading" style="margin-top: 20px;">
+    <div class="float-left">
+      <div [style.display]="!isEditar() ? 'none' : ''" class="panel-heading">
+        <h1>Editar Cadastro</h1>
+      </div>
+      <div [style.display]="isEditar() ? 'none' : ''" class="panel-heading">
+        <h1>Inserir Cadastro</h1>
+      </div>
+    </div>
+    <div class="float-right">
+      <button class="btn btn-primary" onclick="location.href='/pessoa'">
+        Listar
+      </button>
+    </div>
   </div>
-  <div [style.display]="isEditar() ? 'none' : ''" class="panel-heading">
-    <h1>Inserir Cadastro</h1>
-  </div>
+  <div style="clear: both;"></div>
   <div class="panel-body">
     <form novalidate [formGroup]="form" class="need-validation">
       <div class="row" style="margin-top: 20px;">

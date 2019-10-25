@@ -22,7 +22,7 @@ import { PessoaListaComponent } from './pessoa/pessoa-lista/pessoa-lista.compone
     AppRoutingModule,
     PessoaModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

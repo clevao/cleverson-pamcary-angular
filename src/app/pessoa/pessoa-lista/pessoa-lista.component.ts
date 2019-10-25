@@ -85,6 +85,6 @@ export class PessoaListaComponent implements OnInit {
 
   // ESSE MÉTODO VERIFICA SE ESTÁ SENDO REALIZADA UMA PESQUISA POR CPF
   isPesquisaCpf(){
-    return this.pesquisaCpf != "";
+    return this.pesquisaCpf != "" && this.pesquisaCpf != null;
   }
 }

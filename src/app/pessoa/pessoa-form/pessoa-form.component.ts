@@ -3,8 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs/operators';
-
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-pessoa-form',
