@@ -2,7 +2,8 @@ import { PessoaService } from './../pessoa.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
-import { delay } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-pessoa-form',
@@ -18,15 +19,38 @@ export class PessoaFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder, 
     private service: PessoaService,
-    private location: Location  
+    private location: Location ,
+    private route: ActivatedRoute 
   ) { }
 
   ngOnInit() {
+
+    this.route.params.subscribe(
+      (params: any) =>{
+        
+        const id = params['codigo'];
+        const pessoa$ = this.service.loadById(params['codigo']);
+        
+        pessoa$.subscribe(pessoa => {
+          this.updateForm(pessoa);
+        })
+      } 
+    );
+
     this.form = this.fb.group({
-      id: [null],
+      codigo: [null],
       nome: [null, [Validators.required, Validators.minLength(3)]],
       cpf: [null, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
       dataNascimento: [null]
+    });
+  }
+
+  updateForm(pessoa){
+    this.form.patchValue({
+      codigo : pessoa.codigo,
+      nome : pessoa.nome,
+      cpf : pessoa.cpf,
+      dataNascimento : pessoa.dataNascimento
     });
   }
 

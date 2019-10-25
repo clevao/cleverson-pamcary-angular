@@ -20,7 +20,7 @@
                 <td>{{pessoa.cpf}}</td>
                 <td>{{pessoa.dataNascimento}}</td>
                 <td>
-                    <button class="btn btn-outline-warning mb-1 btn-sm">Editar</button>
+                    <button class="btn btn-outline-warning mb-1 btn-sm" (click)="onEdit(pessoa.codigo)">Editar</button>
                     &nbsp;<button class="btn btn-outline-danger mb-1 btn-sm">Remover</button>
                 </td>
             </tr>

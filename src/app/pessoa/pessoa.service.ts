@@ -23,4 +23,8 @@ export class PessoaService {
 	create(pessoa){
 		return this.http.post(this.API, pessoa).pipe(take(1));
 	}
+
+	loadById(id){
+		return this.http.get(`${this.API}/${id}`).pipe(take(1));
+	}
 }

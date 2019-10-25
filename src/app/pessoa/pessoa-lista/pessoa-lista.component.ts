@@ -3,6 +3,7 @@ import { Pessoa } from './../pessoa';
 import { Component, OnInit } from '@angular/core';
 import { Observable, empty } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router'; 
 
 @Component({
   selector: 'app-pessoa-lista',
@@ -13,11 +14,11 @@ export class PessoaListaComponent implements OnInit {
 
   pessoas$: Observable<Pessoa[]>;
 
-  constructor(private service: PessoaService) { }
+  constructor(private service: PessoaService,
+    private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    //this.service.list().subscribe(dados => this.pessoas = dados);
-
     this.pessoas$ = this.service.list()
     .pipe(
       catchError(error => {
@@ -25,6 +26,10 @@ export class PessoaListaComponent implements OnInit {
         return empty();
       })
     );
+  }
+
+  onEdit(id){
+    this.router.navigate(['/pessoa/edit', id]);
   }
 
 }
