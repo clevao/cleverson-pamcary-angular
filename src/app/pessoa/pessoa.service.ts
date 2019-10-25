@@ -14,10 +14,11 @@ export class PessoaService {
 	constructor(private http: HttpClient) { }
 
 	list(){
-		return this.http.get<Pessoa[]>(this.API)
-			.pipe(
-				tap(console.log)
-			)
+		return this.http.get<Pessoa[]>(this.API).pipe(take(1))
+	}
+
+	listByCpf(cpf){
+		return this.http.get<Pessoa[]>(`${this.API}/cpf/${cpf}`).pipe(take(1))
 	}
 
 	create(pessoa){

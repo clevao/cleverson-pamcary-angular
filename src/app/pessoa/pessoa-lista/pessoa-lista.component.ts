@@ -17,7 +17,8 @@ export class PessoaListaComponent implements OnInit {
   @ViewChild('deleteModal', {static: false}) deleteModal;
   
   pessoas$: Observable<Pessoa[]>;
-  pessoaSelecionada: Pessoa;  
+  pessoaSelecionada: Pessoa; 
+  pesquisaCpf: string; 
 
   constructor(private service: PessoaService,
     private router: Router,
@@ -58,13 +59,32 @@ export class PessoaListaComponent implements OnInit {
     this.deleteModalRef.hide();
   }
 
-  onPesquisaCpf(cpf){
-    this.pessoas$ = this.service.list()
-    .pipe(
-      catchError(error => {
-        console.log(error);
-        return empty();
-      })
-    );
+  onPesquisaCpf(){
+    console.log(this.pesquisaCpf);
+
+    if(this.pesquisaCpf){
+      this.pessoas$ = this.service.listByCpf(this.pesquisaCpf)
+      .pipe(
+        catchError(error => {
+          console.log(error);
+          return empty();
+        })
+      );
+    }else{
+      this.onRefresh();
+    }
+  }
+
+  /*
+  * ESSE MÉTODO O CAMPO DE PESQUISA POR CPF E RECARREGA O FORMULÁRIO
+  */
+  onLimparPesquisaCpf(){
+    this.pesquisaCpf = "";
+    this.onRefresh();
+  }
+
+  // ESSE MÉTODO VERIFICA SE ESTÁ SENDO REALIZADA UMA PESQUISA POR CPF
+  isPesquisaCpf(){
+    return this.pesquisaCpf != "";
   }
 }
