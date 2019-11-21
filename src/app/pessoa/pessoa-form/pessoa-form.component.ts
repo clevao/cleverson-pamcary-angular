@@ -1,7 +1,8 @@
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Telefone } from './../../telefone/telefone';
 import { AlertModalService } from './../../shared/alert-modal.service';
 import { PessoaService } from './../pessoa.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -16,6 +17,10 @@ export class PessoaFormComponent implements OnInit {
 
   form: FormGroup;
   telefones: Telefone[];
+  telefoneSelecionado: Telefone;
+
+  editTelModalRef: BsModalRef;
+  @ViewChild('editTelefoneModal', {static: false}) editTelefoneModal;
 
   submitted = false;
 
@@ -24,7 +29,8 @@ export class PessoaFormComponent implements OnInit {
     private service: PessoaService,
     private location: Location ,
     private route: ActivatedRoute,
-    private alertService: AlertModalService
+    private alertService: AlertModalService,
+    private modalService: BsModalService,
   ) {
   }
 
@@ -56,7 +62,7 @@ export class PessoaFormComponent implements OnInit {
     this.form.value.telefones = this.telefones;
     console.log(this.form.value);
     if (this.form.valid) {
-
+      console.log(this.form.value.telefones);
       if (this.form.value.codigo) {
         this.service.update(this.form.value).subscribe(
           success => {
@@ -101,6 +107,16 @@ export class PessoaFormComponent implements OnInit {
     if (indexTel > -1) {
       this.telefones.splice(indexTel, 1);
     }
+  }
+
+  onEditTelefone(telefone){
+    this.telefoneSelecionado = telefone;
+    this.editTelModalRef = this.modalService.show(this.editTelefoneModal);
+  }
+
+  onSaveTelefone(novoTelefone) {
+    this.telefoneSelecionado.telefone = novoTelefone.value;
+    this.editTelModalRef.hide();
   }
 
   isEditar() {

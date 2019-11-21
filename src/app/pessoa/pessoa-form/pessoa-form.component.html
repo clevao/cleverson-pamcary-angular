@@ -63,14 +63,26 @@
           />
         </div>
         <div class="col-md-2 col-2">
-          <br><button class="btn btn-primary mb-2" (click)="onAddTelefone(novoTelefone)">Add</button>
+          <br><button class="btn btn-primary mb-2" (click)="onAddTelefone(novoTelefone)">Adicionar</button>
         </div>
       </div>
 
-      <h2>Telefones cadastrados</h2>
+      <h2 class="espacamento">Telefones cadastrados</h2>
       <ul>
         <li *ngFor="let telefone of telefones">
-          <div (click)="onRemoveTelefone(telefone.telefone)">
+          <div >
+            <button
+              class="btn btn-outline-warning mb-1 btn-sm"
+              (click)="onEditTelefone(telefone)"
+            >
+              Editar
+            </button>
+            &nbsp;<button
+              class="btn btn-outline-danger mb-1 btn-sm"
+              (click)="onRemoveTelefone(telefone.telefone)"
+            >
+              Remover
+            </button>
             {{telefone.telefone}}
           </div>
         </li>
@@ -97,3 +109,24 @@
     </form>
   </div>
 </div>
+
+<ng-template #editTelefoneModal >
+  <div class="modal-body">
+    <div class="row" style="padding: 20px;">
+      <div class="col-md-10 col-10">
+        <label for="telefone">Telefone</label>
+        <input
+          [value]="telefoneSelecionado.telefone"
+          type="text"
+          id="editTelefone"
+          placeholder="Telefone"
+          class="form-control"
+          #novoTelefone
+        />
+      </div>
+      <div class="col-md-2 col-2">
+        <br><button class="btn btn-primary mb-2" (click)="onSaveTelefone(novoTelefone)">Salvar</button>
+      </div>
+    </div>
+  </div>
+</ng-template>
