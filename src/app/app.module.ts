@@ -12,10 +12,11 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { PessoaListaComponent } from './pessoa/pessoa-lista/pessoa-lista.component';
 
+
 @NgModule({
   declarations: [
     AppComponent,
-    PessoaListaComponent
+    PessoaListaComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,31 +9,31 @@ import { tap, take } from 'rxjs/operators';
 })
 export class PessoaService {
 
-	private readonly API = `${environment.API}pessoa`
-	
+	private readonly API = `${environment.API}pessoa`;
+
 	constructor(private http: HttpClient) { }
 
-	list(){
-		return this.http.get<Pessoa[]>(this.API).pipe(take(1))
+	list() {
+		return this.http.get<Pessoa[]>(this.API).pipe(take(1));
 	}
 
-	listByCpf(cpf){
-		return this.http.get<Pessoa[]>(`${this.API}/cpf/${cpf}`).pipe(take(1))
+	listByCpf(cpf) {
+		return this.http.get<Pessoa[]>(`${this.API}/cpf/${cpf}`).pipe(take(1));
 	}
 
-	create(pessoa){
+	create(pessoa) {
 		return this.http.post(this.API, pessoa).pipe(take(1));
 	}
 
-	update(pessoa){
+	update(pessoa) {
 		return this.http.put(`${this.API}/${pessoa.codigo}`, pessoa).pipe(take(1));
 	}
 
-	loadById(codigo){
+	loadById(codigo) {
 		return this.http.get<Pessoa>(`${this.API}/${codigo}`).pipe(take(1));
 	}
 
-	delete(codigo){
+	delete(codigo) {
 		return this.http.delete(`${this.API}/${codigo}`).pipe(take(1));
 	}
 }

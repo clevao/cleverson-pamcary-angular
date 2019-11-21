@@ -51,6 +51,31 @@
           />
         </div>
       </div>
+      <div class="row">
+        <div class="col-md-3 col-3">
+          <label for="telefone">Telefone</label>
+          <input
+            type="text"
+            id="telefone"
+            placeholder="Telefone"
+            class="form-control"
+            #novoTelefone
+          />
+        </div>
+        <div class="col-md-2 col-2">
+          <br><button class="btn btn-primary mb-2" (click)="onAddTelefone(novoTelefone)">Add</button>
+        </div>
+      </div>
+
+      <h2>Telefones cadastrados</h2>
+      <ul>
+        <li *ngFor="let telefone of telefones">
+          <div (click)="onRemoveTelefone(telefone.telefone)">
+            {{telefone.telefone}}
+          </div>
+        </li>
+      </ul>
+
       <div style="margin-top: 20px;">
         <button
           [disabled]="!form.valid"
