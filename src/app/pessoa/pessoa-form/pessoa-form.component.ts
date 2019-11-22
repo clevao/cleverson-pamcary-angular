@@ -18,9 +18,11 @@ export class PessoaFormComponent implements OnInit {
   form: FormGroup;
   telefones: Telefone[];
   telefoneSelecionado: Telefone;
+  public maskCpf = [ /[1-9]/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '.', /\d/, /\d/, /\d/, '-', /\d/, /\d/];
 
   editTelModalRef: BsModalRef;
   @ViewChild('editTelefoneModal', {static: false}) editTelefoneModal;
+  @ViewChild('deleteTelefoneModal', {static: false}) deleteTelefoneModal;
 
   submitted = false;
 
@@ -45,15 +47,17 @@ export class PessoaFormComponent implements OnInit {
     this.form = this.fb.group({
       codigo: [pessoa.codigo],
       nome: [pessoa.nome, [Validators.required, Validators.minLength(3)]],
-      cpf: [pessoa.cpf, [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
+      cpf: [pessoa.cpf, [Validators.required, Validators.minLength(14), Validators.maxLength(14)]],
       dataNascimento: [pessoa.dataNascimento]
     });
   }
 
   onAddTelefone(novoTelefone) {
-    console.log(novoTelefone);
-    const feed = {telefone: novoTelefone.value, codigo: null};
-    this.telefones.push(feed);
+
+    if ( novoTelefone.value !== '') {
+      const feed = {telefone: novoTelefone.value, codigo: null};
+      this.telefones.push(feed);
+    }
     novoTelefone.value = '';
   }
 
@@ -101,12 +105,21 @@ export class PessoaFormComponent implements OnInit {
   }
 
   onRemoveTelefone(telefone) {
-    console.log('remover: ' + telefone);
-    const indexTel = this.getTelefoneIndex(telefone);
+    this.telefoneSelecionado = telefone;
+    this.editTelModalRef = this.modalService.show(this.deleteTelefoneModal);
+  }
+
+  onConfirmDeleteTelefone() {
+    const indexTel = this.getTelefoneIndex(this.telefoneSelecionado.telefone);
 
     if (indexTel > -1) {
       this.telefones.splice(indexTel, 1);
     }
+    this.editTelModalRef.hide();
+  }
+
+  onDeclineDeleteTelefone() {
+    this.editTelModalRef.hide();
   }
 
   onEditTelefone(telefone){
@@ -115,8 +128,10 @@ export class PessoaFormComponent implements OnInit {
   }
 
   onSaveTelefone(novoTelefone) {
-    this.telefoneSelecionado.telefone = novoTelefone.value;
-    this.editTelModalRef.hide();
+    if( novoTelefone.value !== ''){
+      this.telefoneSelecionado.telefone = novoTelefone.value;
+      this.editTelModalRef.hide();
+    }
   }
 
   isEditar() {

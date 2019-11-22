@@ -38,6 +38,7 @@
             placeholder="CPF"
             class="form-control"
             formControlName="cpf"
+            [textMask]="{mask: maskCpf}"
           />
         </div>
         <div class="col-md-6 col-12">
@@ -67,7 +68,7 @@
         </div>
       </div>
 
-      <h2 class="espacamento">Telefones cadastrados</h2>
+      <h2 class="espacamento" style="margin-top: 20px;">Telefones cadastrados</h2>
       <ul>
         <li *ngFor="let telefone of telefones">
           <div >
@@ -79,7 +80,7 @@
             </button>
             &nbsp;<button
               class="btn btn-outline-danger mb-1 btn-sm"
-              (click)="onRemoveTelefone(telefone.telefone)"
+              (click)="onRemoveTelefone(telefone)"
             >
               Remover
             </button>
@@ -130,3 +131,16 @@
     </div>
   </div>
 </ng-template>
+
+<ng-template #deleteTelefoneModal>
+  <div class="modal-body text-center">
+    <p>Tem certeza que deseja remover o telefone <b>{{telefoneSelecionado.telefone}}?</b></p>
+    <button type="button" class="btn btn-danger" (click)="onConfirmDeleteTelefone()">
+      Sim
+    </button>&nbsp;
+    <button type="button" class="btn btn-primary" (click)="onDeclineDeleteTelefone()">
+      Não
+    </button>
+  </div>
+</ng-template>
+
